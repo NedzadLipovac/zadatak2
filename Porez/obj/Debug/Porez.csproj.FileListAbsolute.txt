@@ -1,0 +1,9 @@
+E:\V2017\Projects\Zdatak2\Zdatak2\Extensions\ApplicationInsights.config
+E:\V2017\Projects\Zdatak2\Zdatak2\Extensions\Porez.dll
+E:\V2017\Projects\Zdatak2\Zdatak2\Extensions\Porez.pdb
+E:\V2017\Projects\Zdatak2\Porez\obj\Debug\Porez.csprojAssemblyReference.cache
+E:\V2017\Projects\Zdatak2\Porez\obj\Debug\Porez.csproj.CoreCompileInputs.cache
+E:\V2017\Projects\Zdatak2\Porez\obj\Debug\Porez.csproj.CopyComplete
+E:\V2017\Projects\Zdatak2\Porez\obj\Debug\Porez.dll
+E:\V2017\Projects\Zdatak2\Porez\obj\Debug\Porez.pdb
+E:\V2017\Projects\Zdatak2\Zdatak2\Extensions\Porez.dll.config

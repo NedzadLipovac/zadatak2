@@ -1,0 +1,36 @@
+﻿@model Zdatak2.ViewModels.Faktura.FakturaPrikaziVM
+
+@{
+    ViewBag.Title = "FakturaController";
+}
+
+<h2>FakturaController</h2>
+
+<table class="table table-bordered">
+    <tr>
+
+        <th>BrojFakture</th>
+
+        <th>DatumStvaranja</th>
+        <th>DatumDospijeca</th>
+        <th>AKCIJA</th>
+
+
+    </tr>
+
+@foreach (var item in Model.rows) {
+    <tr>
+
+        <td>@item.BrFakture</td>
+        <td>@item.DatumStvaranja</td>
+        <td>@item.DatumDospijeca</td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { FakturaId = item.FakturaId }, htmlAttributes: new { @class = "btn btn-danger" }) 
+            @*@Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
+        </td>
+    </tr>
+}
+
+</table>
+<a href="Create" class="btn btn-primary">Dodaj Fakturu</a>

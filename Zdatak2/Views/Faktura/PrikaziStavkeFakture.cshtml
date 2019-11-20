@@ -1,0 +1,50 @@
+﻿@model  Zdatak2.ViewModels.Faktura.FakturaStavkePrikaziVM
+
+@{
+    ViewBag.Title = "PrikaziStavkeFakture";
+}
+
+<h2>Stavke Fakture</h2>
+<div class="hidden">
+    @Html.DisplayNameFor(model => model.FakturaId)
+    @Html.TextBoxFor(model=>model.FakturaId)
+</div>
+
+<table class="table">
+    <tr>
+
+        <th>Opis</th>
+        <th>Kolicina</th>
+        <th>Cijena</th>
+        <th>Ukupna Cijena</th>
+
+    </tr>
+
+@foreach (var item in Model.rows) {
+    <tr>
+            <td>@item.Opis</td>
+            <td>@item.Kolicina</td>
+            <td>@item.Cijena</td>
+            <td>@item.UkupnaCijenaStavke</td>
+    </tr>
+}
+</table>
+<button type="button" class="btn btn-success btnAdd" idValue="@Model.FakturaId">Dodaj Stavku</button>
+<script>
+    
+         $(".btnAdd").click(function () {
+
+            var btn = $(this);
+            var id = btn.attr("idValue");
+
+            $.ajax({
+                url: "@Url.Action("DodajStavku", "Faktura")",
+                type: "GET",
+                data: { FakturaId: id },
+                success: function (result) {
+                    $("#ajaxDiv").html(result);
+                }
+            });
+
+        });
+</script>
