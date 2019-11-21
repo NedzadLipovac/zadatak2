@@ -31,7 +31,7 @@
             </div>
         </div>
         <div class="form-group">
-            @Html.LabelFor(model => model.stavke, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.StavkaId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownListFor(model => model.StavkaId, new SelectList(Model.stavke, "Value", "Text"), "-Odaberi Stavku-", new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.StavkaId, "", new { @class = "text-danger" })
@@ -41,32 +41,13 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" class="btn btn-success" value="Submit"/>
+                <input type="submit" class="btn btn-success" value="Snimi"/>
             </div>
         </div>
     </div>
 }
 
 
-<script>
-
-    $("#btnSubmit").click(function () {
-
-        var form = $("#form");
-
-        $.ajax({
-            url: "@Url.Action("SnimiStavku", "Faktura")",
-            type: "POST",
-            data: form.serialize(),
-            success: function (result) {
-                $("#ajaxDiv").html(result);
-            }
-        });
-
-    });
-
-
-</script>
 
 
 @section Scripts {

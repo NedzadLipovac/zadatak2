@@ -1,0 +1,24 @@
+﻿@model  Zdatak2.ViewModels.Stavke.StavkeIndexVM
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Stavke</h2>
+
+<table class="table">
+    <tr>
+        <th>Opis</th>
+        <th>Cijena</th>
+    </tr>
+
+@foreach (var item in Model.rows) {
+    <tr>
+        <td>@item.Opis</td>
+        <td>@item.Cijena</td>
+
+    </tr>
+}
+
+</table>
+<a href='@Url.Action("Add", "Stavke")' class="btn btn-primary">Dodaj Stavku</a>

@@ -215,6 +215,7 @@
     <Compile Include="Controllers\FakturaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\StavkeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -255,6 +256,8 @@
     <Compile Include="ViewModels\Faktura\FakturaStavkaDodajVM.cs" />
     <Compile Include="ViewModels\Faktura\FakturaStavkePrikaziVM.cs" />
     <Compile Include="ViewModels\Faktura\FakturaUrediVM.cs" />
+    <Compile Include="ViewModels\Stavke\StavkeAddVM.cs" />
+    <Compile Include="ViewModels\Stavke\StavkeIndexVM.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -320,6 +323,8 @@
     <Content Include="Views\Faktura\Edit.cshtml" />
     <Content Include="Views\Faktura\PrikaziStavkeFakture.cshtml" />
     <Content Include="Views\Faktura\DodajStavku.cshtml" />
+    <Content Include="Views\Stavke\Index.cshtml" />
+    <Content Include="Views\Stavke\Add.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

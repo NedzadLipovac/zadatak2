@@ -34,6 +34,7 @@ namespace Zdatak2.Controllers
             model.Stvaratelj.Id = user.Id;
             model.Stvaratelj.UserName = user.UserName;
             model.rows = db.Faktura
+                .Where(x=>x.StvarateljRacuna_Id==user.Id)
                 .Select(x => new Row()
                 {
                     BrFakture = x.BrFakture,
@@ -46,12 +47,22 @@ namespace Zdatak2.Controllers
 
         public ActionResult Create()
         {
+            if (!db.TipPoreza.Any())
+            {
+                db.TipPoreza.Add(
+                    new TipPoreza { iznos = Convert.ToDecimal(0.17), naziv = "BIH" });
+
+                db.TipPoreza.Add(
+                   new TipPoreza { iznos = Convert.ToDecimal(0.25), naziv = "HR" });
+
+            }
+            db.SaveChanges();
             var user = UserManager.FindById(User.Identity.GetUserId());
 
             FakturaDodajVM model = new FakturaDodajVM();
             model.tipPoreza = db.TipPoreza.Select(x => new SelectListItem()
             {
-                Text = x.naziv+"-"+x.iznos+" %",
+                Text = x.naziv + "-" + x.iznos + " %",
                 Value = x.tipPorezaId.ToString()
             }).ToList();
             model.Stvaratelj_id = user.Id;
@@ -60,17 +71,20 @@ namespace Zdatak2.Controllers
         }
         public ActionResult Save(FakturaDodajVM model)
         {
-            Faktura faktura = new Faktura();
-            faktura.BrFakture = model.BrFakture;
-            faktura.DatumDospijeca = model.DatumDospijeca;
-            faktura.DatumStvaranja = model.DatumStvaranja;
-            faktura.PrimateljRacuna = model.PrimateljRacuna;
-            faktura.tipPorezaId = model.tipPorezaId;
-            faktura.StvarateljRacuna_Id = model.Stvaratelj_id;
-            faktura.UkupnaCijenaBezPoreza = 0;
-            faktura.UkupnaCijenaSaporezom = 0;
-            db.Faktura.Add(faktura);
-            db.SaveChanges();
+        
+                Faktura faktura = new Faktura();
+                faktura.BrFakture = model.BrFakture;
+                faktura.DatumDospijeca = model.DatumDospijeca;
+                faktura.DatumStvaranja = model.DatumStvaranja;
+                faktura.PrimateljRacuna = model.PrimateljRacuna;
+                faktura.tipPorezaId = model.tipPorezaId;
+                faktura.StvarateljRacuna_Id = model.Stvaratelj_id;
+                faktura.UkupnaCijenaBezPoreza = 0;
+                faktura.UkupnaCijenaSaporezom = 0;
+                db.Faktura.Add(faktura);
+                db.SaveChanges();
+           
+
             return RedirectToAction(nameof(Index));
 
         }
@@ -87,6 +101,17 @@ namespace Zdatak2.Controllers
             model.PrimateljRacuna = db.Faktura.Where(x => x.FakturaId == FakturaId).FirstOrDefault().PrimateljRacuna;
             return View(model);
         }
+        [HttpPost]
+        public ActionResult Edit(FakturaUrediVM model)
+        {
+            Faktura f = db.Faktura.Where(x => x.FakturaId == model.FakturaId).FirstOrDefault();
+            f.DatumDospijeca = model.DatumDospijeca;
+            f.DatumStvaranja = model.DatumStvaranja;
+            f.BrFakture = model.BrFakture;
+            f.PrimateljRacuna = model.PrimateljRacuna;
+            db.SaveChanges();
+            return RedirectToAction(nameof(Edit), new { FakturaId = model.FakturaId });
+        }
 
         public ActionResult PrikaziStavkeFakture(int FakturaId)
         {
@@ -98,17 +123,17 @@ namespace Zdatak2.Controllers
                       .Where(x => x.FakturaId == FakturaId)
                       .Select(x => new FakturaStavkePrikaziVM.Row()
                       {
-                           Cijena=x.Stavka.Cijena,
-                            Kolicina=x.Kolicina,
-                             Opis=x.Stavka.Opis,
-                              FakturaStavkaId=x.Id,
-                               StavkaId=x.StavkaId,
-                                UkupnaCijenaStavke=x.Kolicina*x.Stavka.Cijena
+                          Cijena = x.Stavka.Cijena,
+                          Kolicina = x.Kolicina,
+                          Opis = x.Stavka.Opis,
+                          FakturaStavkaId = x.Id,
+                          StavkaId = x.StavkaId,
+                          UkupnaCijenaStavke = x.Kolicina * x.Stavka.Cijena
                       }).ToList();
-           
+
             return PartialView(model);
         }
-        public  ActionResult DodajStavku(int FakturaId)
+        public ActionResult DodajStavku(int FakturaId)
         {
             FakturaStavkaDodajVM model = new FakturaStavkaDodajVM();
             model.FakturaId = FakturaId;
@@ -122,14 +147,17 @@ namespace Zdatak2.Controllers
         public ActionResult SnimiStavku(FakturaStavkaDodajVM model)
         {
             FakturaStavka fs = new FakturaStavka();
-            fs.FakturaId = model.FakturaId;
-            fs.Kolicina = model.Kolicina;
-            var stavka = db.Stavka.Where(x => x.StavkaId == model.StavkaId).FirstOrDefault();
-            fs.StavkaId = stavka.StavkaId;
-            fs.Kolicina = model.Kolicina;
+            if (ModelState.IsValid)
+            {
+                fs.FakturaId = model.FakturaId;
+                fs.Kolicina = model.Kolicina;
+                var stavka = db.Stavka.Where(x => x.StavkaId == model.StavkaId).FirstOrDefault();
+                fs.StavkaId = stavka.StavkaId;
+                fs.Kolicina = model.Kolicina;
 
-            db.FakturaStavka.Add(fs);
-            db.SaveChanges();
+                db.FakturaStavka.Add(fs);
+                db.SaveChanges();
+            }
             return RedirectToAction(nameof(IzracunajUkupnuCijenu), new { FakturaId = model.FakturaId });
         }
         public ActionResult IzracunajUkupnuCijenu(int FakturaId)
@@ -143,14 +171,14 @@ namespace Zdatak2.Controllers
             {
                 suma += Convert.ToDecimal(item.Kolicina) * item.Stavka.Cijena;
             }
-            Faktura f = db.Faktura.Where(x => x.FakturaId == FakturaId).Include(x=>x.TipPoreza).FirstOrDefault();
+            Faktura f = db.Faktura.Where(x => x.FakturaId == FakturaId).Include(x => x.TipPoreza).FirstOrDefault();
             f.UkupnaCijenaBezPoreza = suma;
 
-            var porez=obj.Run(f.UkupnaCijenaBezPoreza, f.TipPoreza.iznos);
+            var porez = obj.Run(f.UkupnaCijenaBezPoreza, f.TipPoreza.iznos);
             f.UkupnaCijenaSaporezom = porez + f.UkupnaCijenaBezPoreza;
 
             db.SaveChanges();
-           return RedirectToAction(nameof(Edit), new { FakturaId = FakturaId });
+            return RedirectToAction(nameof(Edit), new { FakturaId = FakturaId });
         }
     }
 }

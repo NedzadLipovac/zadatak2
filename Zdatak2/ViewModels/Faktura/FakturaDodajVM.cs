@@ -10,6 +10,8 @@ namespace Zdatak2.ViewModels.Faktura
 {
     public class FakturaDodajVM
     {
+        public int FakturaId { get; set; }
+
         public string Stvaratelj_id{ get; set; }
         [Required]
         public string BrFakture { get; set; }
@@ -19,6 +21,7 @@ namespace Zdatak2.ViewModels.Faktura
         public DateTime DatumDospijeca { get; set; }
         [Required]
         public List<SelectListItem> tipPoreza { get; set; }
+        [Required]
         public int tipPorezaId { get; set; }
 
         public decimal UkupnaCijenaBezPoreza { get; set; }

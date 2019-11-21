@@ -10,10 +10,12 @@ namespace Zdatak2.ViewModels.Faktura
     public class FakturaStavkaDodajVM
     {
         public int FakturaId { get; set; }
+        [Required]
+        [Range(1,int.MaxValue)]
         public int Kolicina { get; set; }
         [Required]
         public int StavkaId { get; set; }
-        [Required]
+       
         public List<SelectListItem> stavke { get; set; }
 
     }

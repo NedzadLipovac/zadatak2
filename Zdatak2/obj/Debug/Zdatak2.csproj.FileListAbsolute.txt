@@ -133,3 +133,4 @@ E:\V2017\Projects\Zdatak2\Zdatak2\bin\System.Composition.TypedParts.xml
 E:\V2017\Projects\Zdatak2\Zdatak2\obj\Debug\Zdatak2.Migrations.TipPoreza.resources
 E:\V2017\Projects\Zdatak2\Zdatak2\obj\Debug\Zdatak2.Migrations.TipPorezaIspravkaPropertia.resources
 E:\V2017\Projects\Zdatak2\Zdatak2\obj\Debug\Zdatak2.Migrations.povezanTipPorezaNAfakturu.resources
+E:\V2017\Projects\Zdatak2\Zdatak2\obj\Debug\Zdatak2.csprojAssemblyReference.cache
